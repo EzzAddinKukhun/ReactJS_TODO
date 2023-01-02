@@ -63,7 +63,7 @@ export default function Tasks() {
   function setItemDone(id) {
     dataParsed.find((element) => {
       if (dataParsed.indexOf(element) == id) {
-        dataParsed[id].done = 1;
+        dataParsed[id].done = 1;;
       }
       setDataParsed(dataParsed);
       let localStorageData = JSON.stringify(dataParsed)
