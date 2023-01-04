@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Task from "./Task";
 import Swal from "sweetalert2";
 import Fade from 'react-reveal/Fade';
+import Modal from "./Modal";
+import TableHeader from './TableHeader'; 
 
 export default function Tasks() {
   let [dataParsed, setDataParsed] = useState([]);
@@ -159,13 +161,7 @@ export default function Tasks() {
             </div>
             <div className="tasksTable">
               <div className="tb-header text-muted">
-                <div>#</div>
-                <div>Task Name</div>
-                <div>Assignee</div>
-                <div>From</div>
-                <div>To</div>
-                <div>Done</div>
-                <div>Remove</div>
+                <TableHeader/>
               </div>
               <div id="tasksTable" className="tasks-table-container">
                 {displayData()}
@@ -176,74 +172,8 @@ export default function Tasks() {
         </div>
         </Fade>
 
-        {/* MODAL */}
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Add Task
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="taskname"
-                    placeholder="name@example.com"
-                  />
-                  <label for="floatingInput">Task Name</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="assignee"
-                    placeholder="name@example.com"
-                  />
-                  <label for="floatingInput">Assignee</label>
-                </div>
-                <div className="w-100 mb-3">
-                  <h6>Start Date</h6>
-                  <input id="startdate" className="date w-100" type="date" />
-                </div>
-                <div className="w-100">
-                  <h6>End Date</h6>
-                  <input id="enddate" className="date w-100" type="date" />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-dismiss="modal"
-                  onClick={() => {
-                    var taskname = document.getElementById("taskname").value;
-                    var assignee = document.getElementById("assignee").value;
-                    var startDate = document.getElementById("startdate").value;
-                    var endDate = document.getElementById("enddate").value;
-                    addToLocalStorage(taskname, assignee, startDate, endDate);
-                  }}
-                >
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal addToLocalStorage={addToLocalStorage}/>
+
     </>
   );
 }
