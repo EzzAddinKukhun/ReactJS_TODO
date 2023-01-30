@@ -12,12 +12,26 @@ export default function Tasks() {
 
   console.log(token)
 
-  function getDataFromLocalStorage() {
-    let jsonFormatData = localStorage.getItem("Tasks");
-    if (jsonFormatData != null) {
-      setDataParsed(JSON.parse(jsonFormatData));
-    }
-  }
+  async function getTasks() {
+    await fetch(`http://localhost:8000/allTodos`, {
+        method: 'GET',
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+        .then(response => response.json())
+        .then(json => {
+          console.log(json); 
+          setDataParsed(json);
+        });
+}
+
+  // function getTasks() {
+  //   let jsonFormatData = localStorage.getItem("Tasks");
+  //   if (jsonFormatData != null) {
+  //     setDataParsed(JSON.parse(jsonFormatData));
+  //   }
+  // }
 
   function addToLocalStorage(name, assignee, startDate, endDate) {
     let dataObject = {
@@ -124,7 +138,7 @@ export default function Tasks() {
 
 
   useEffect(() => {
-    getDataFromLocalStorage();
+    getTasks();
   }, []);
 
   return (

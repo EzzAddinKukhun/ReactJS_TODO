@@ -11,7 +11,9 @@ export default function ProgressBarContainers() {
   function getDataFromLocalStorage() {
     let jsonFormatData = localStorage.getItem("Tasks");
     if (jsonFormatData != null) {
-      setDataParsed(JSON.parse(jsonFormatData));
+      console.log(jsonFormatData)
+      let newData = JSON.parse(jsonFormatData);
+      setDataParsed(newData);
     }
   }
 
