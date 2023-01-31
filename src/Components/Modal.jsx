@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Modal({addToLocalStorage}) {
+export default function Modal({addNewTodo}) {
     return (
         <div
             class="modal fade"
@@ -60,7 +60,7 @@ export default function Modal({addToLocalStorage}) {
                                 var assignee = document.getElementById("assignee").value;
                                 var startDate = document.getElementById("startdate").value;
                                 var endDate = document.getElementById("enddate").value;
-                                addToLocalStorage(taskname, assignee, startDate, endDate);
+                                addNewTodo(taskname, assignee, startDate, endDate);
                             }}
                         >
                             Save changes

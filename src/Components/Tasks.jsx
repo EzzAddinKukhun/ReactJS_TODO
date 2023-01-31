@@ -3,7 +3,7 @@ import Task from "./Task";
 import Swal from "sweetalert2";
 import Fade from 'react-reveal/Fade';
 import Modal from "./Modal";
-import TableHeader from './TableHeader'; 
+import TableHeader from './TableHeader';
 
 export default function Tasks() {
   let [dataParsed, setDataParsed] = useState([]);
@@ -14,26 +14,21 @@ export default function Tasks() {
 
   async function getTasks() {
     await fetch(`http://localhost:8000/allTodos`, {
-        method: 'GET',
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
     })
-        .then(response => response.json())
-        .then(json => {
-          console.log(json); 
-          setDataParsed(json);
-        });
-}
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        setDataParsed(json);
+      });
+  }
 
-  // function getTasks() {
-  //   let jsonFormatData = localStorage.getItem("Tasks");
-  //   if (jsonFormatData != null) {
-  //     setDataParsed(JSON.parse(jsonFormatData));
-  //   }
-  // }
 
-  function addToLocalStorage(name, assignee, startDate, endDate) {
+
+  async function addNewTodo(name, assignee, startDate, endDate) {
     let dataObject = {
       name,
       assignee,
@@ -41,19 +36,28 @@ export default function Tasks() {
       endDate,
       done: 0
     };
-    dataParsed.push(dataObject);
-    setDataParsed(dataParsed)
-    let localStorageData = JSON.stringify(dataParsed)
-    localStorage.setItem("Tasks", localStorageData);
-    Swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success',
 
-    );
-    setTimeout(() => {
-      window.location.reload();
-    }, 1400);
+    await fetch(`http://localhost:8000/addNewTodo`, {
+      method: 'POST',
+      body: JSON.stringify(dataObject),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.message == 'success') {
+          Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success',
+
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000)
+        }
+      });
   }
 
   function displayData() {
@@ -175,7 +179,7 @@ export default function Tasks() {
             </div>
             <div className="tasksTable">
               <div className="tb-header text-muted">
-                <TableHeader/>
+                <TableHeader />
               </div>
               <div id="tasksTable" className="tasks-table-container">
                 {displayData()}
@@ -184,9 +188,9 @@ export default function Tasks() {
             </div>
           </div>
         </div>
-        </Fade>
+      </Fade>
 
-        <Modal addToLocalStorage={addToLocalStorage}/>
+      <Modal addNewTodo={addNewTodo} />
 
     </>
   );
