@@ -60,6 +60,38 @@ export default function Tasks() {
       });
   }
 
+
+  async function setTodoDone(Id) {
+    let todoId = Id; 
+    console.log(todoId)
+   
+    let dataObject = {
+      todoId
+    };
+
+    await fetch(`http://localhost:8000/todos/${todoId}`, {
+      method: 'PUT',
+      body: JSON.stringify(dataObject),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.message == 'success') {
+          Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success',
+
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000)
+        }
+      });
+  }
+
   function displayData() {
     return (
       dataParsed.filter((task) =>
@@ -68,12 +100,12 @@ export default function Tasks() {
         return (
           element.done == toggle ?
             < Task
-              id={key}
+              id={element.id}
               name={element.name}
               assignee={element.assignee}
               startDate={element.startDate}
               doneAttribute={element.done}
-              setItemDone={() => setItemDone(key)}
+              setTodoDone={() => setTodoDone(element.id)}
               deleteTask={() => deleteTask(key)}
               endDate={element.endDate}
             /> : "")

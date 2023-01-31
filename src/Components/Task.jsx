@@ -1,6 +1,6 @@
 import React from "react";
 import "../todostyle.css";
-export default function Task({ id, name, assignee, startDate, endDate, setItemDone, deleteTask, doneAttribute }) {
+export default function Task({ id, name, assignee, startDate, endDate, setTodoDone, deleteTask, doneAttribute }) {
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function Task({ id, name, assignee, startDate, endDate, setItemDo
         <div>{endDate}</div>
         <div>
           {
-            doneAttribute? "" :  <button onClick={setItemDone} type="button" class="btn btn-success">
+            doneAttribute? "" :  <button onClick={setTodoDone} type="button" class="btn btn-success">
             <i class="fa-solid fa-check"></i>
           </button>
           }   

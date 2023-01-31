@@ -57,7 +57,7 @@ app.post('/addNewTodo', (req, res)=>{
     
     let insertQuery = "insert into todos (`Id`,`name`,`assignee`,`startDate`,`endDate`,`done`) VALUES (?)"
     let values = [Id, name, assignee, startDate, endDate, done];
-    mysqlConnection.query(insertQuery, [values], (err, rows)=>{
+    mysqlConnection.query(insertQuery, [values], (err)=>{
         if (err){
             console.log(err); 
         }
@@ -65,4 +65,19 @@ app.post('/addNewTodo', (req, res)=>{
             message: 'success'
         }); 
     })
+})
+
+
+app.put('/todos/:id', (req, res)=>{
+    let updateQuery = "UPDATE todos SET done='1' where id = ?"; 
+    mysqlConnection.query(updateQuery, [req.params.id], (err)=>{
+        if (err){
+            console.log(err); 
+        }
+        return res.json({
+            message: 'success'
+        }); 
+    })
+
+    
 })
