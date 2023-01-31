@@ -81,3 +81,18 @@ app.put('/todos/:id', (req, res)=>{
 
     
 })
+
+
+app.delete('/todos/:id', (req, res)=>{
+    let deleteQuery = "DELETE FROM todos where id = ?"; 
+    mysqlConnection.query(deleteQuery, [req.params.id], (err)=>{
+        if (err){
+            console.log(err); 
+        }
+        return res.json({
+            message: 'success'
+        }); 
+    })
+
+    
+})

@@ -62,16 +62,9 @@ export default function Tasks() {
 
 
   async function setTodoDone(Id) {
-    let todoId = Id; 
-    console.log(todoId)
-   
-    let dataObject = {
-      todoId
-    };
-
+    let todoId = Id;  
     await fetch(`http://localhost:8000/todos/${todoId}`, {
       method: 'PUT',
-      body: JSON.stringify(dataObject),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
@@ -92,6 +85,33 @@ export default function Tasks() {
       });
   }
 
+  async function deleteTask(Id) {
+    let todoId = Id; 
+   
+    await fetch(`http://localhost:8000/todos/${todoId}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.message == 'success') {
+          Swal.fire(
+            'Good job!',
+            'Task Deleted Successfully!',
+            'success',
+
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000)
+        }
+      });
+
+  }
+
+
   function displayData() {
     return (
       dataParsed.filter((task) =>
@@ -106,72 +126,15 @@ export default function Tasks() {
               startDate={element.startDate}
               doneAttribute={element.done}
               setTodoDone={() => setTodoDone(element.id)}
-              deleteTask={() => deleteTask(key)}
+              deleteTask={() => deleteTask(element.id)}
               endDate={element.endDate}
             /> : "")
       }))
   }
 
-  function setItemDone(id) {
-    dataParsed.find((element) => {
-      if (dataParsed.indexOf(element) == id) {
-        dataParsed[id].done = 1;;
-      }
-      setDataParsed(dataParsed);
-      let localStorageData = JSON.stringify(dataParsed)
-      localStorage.setItem("Tasks", localStorageData);
-      Swal.fire(
-        'Good job!',
-        'Task is Done Successfully!',
-        'success',
+ 
 
-      );
-      setTimeout(() => {
-        window.location.reload();
-      }, 1400);
-
-    })
-
-  }
-
-
-  function deleteTask(id) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dataParsed.find((element) => {
-          if (dataParsed.indexOf(element) == id) {
-            dataParsed.splice(id, 1);
-
-          }
-          setDataParsed(dataParsed);
-          let localStorageData = JSON.stringify(dataParsed)
-          localStorage.setItem("Tasks", localStorageData);
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
-
-          setTimeout(() => {
-            window.location.reload();
-          }, 1400);
-
-        })
-
-
-      }
-    })
-
-  }
-
+ 
 
   useEffect(() => {
     getTasks();
