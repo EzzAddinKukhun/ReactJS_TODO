@@ -35,7 +35,6 @@ app.listen('8000', ()=>{
 
 
 app.get('/allTodos', (req,res)=>{
-    console.log("INSIDE REQ")
     mysqlConnection.query('SELECT * FROM todos', (err,rows,fileds)=>{
         if (!err){
            return (res.json(rows)); 

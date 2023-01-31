@@ -10,7 +10,6 @@ export default function Tasks() {
   let [toggle, setToggle] = useState(0);
   let [token, setToken] = useState("");
 
-  console.log(token)
 
   async function getTasks() {
     await fetch(`http://localhost:8000/allTodos`, {
@@ -21,7 +20,6 @@ export default function Tasks() {
     })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         setDataParsed(json);
       });
   }
@@ -55,7 +53,7 @@ export default function Tasks() {
           );
           setTimeout(() => {
             window.location.reload();
-          }, 2000)
+          }, 1000)
         }
       });
   }
@@ -80,7 +78,7 @@ export default function Tasks() {
           );
           setTimeout(() => {
             window.location.reload();
-          }, 2000)
+          }, 1000)
         }
       });
   }
@@ -105,7 +103,7 @@ export default function Tasks() {
           );
           setTimeout(() => {
             window.location.reload();
-          }, 2000)
+          }, 1000)
         }
       });
 
@@ -142,7 +140,7 @@ export default function Tasks() {
 
   return (
     <>
-      <Fade delay={2600}>
+      <Fade>
         <div className="tasks-container">
           <div className="tasks-table">
             <div className="controlBar">

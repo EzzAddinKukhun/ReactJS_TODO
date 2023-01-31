@@ -8,13 +8,17 @@ export default function ProgressBarContainers() {
   let [dataParsed, setDataParsed] = useState([]);
 
 
-  function getDataFromLocalStorage() {
-    let jsonFormatData = localStorage.getItem("Tasks");
-    if (jsonFormatData != null) {
-      console.log(jsonFormatData)
-      let newData = JSON.parse(jsonFormatData);
-      setDataParsed(newData);
-    }
+  async function getTasks() {
+    await fetch(`http://localhost:8000/allTodos`, {
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        setDataParsed(json);
+      });
   }
 
 
@@ -36,11 +40,11 @@ export default function ProgressBarContainers() {
 
     return (
       <>
-        <Fade delay={1600}>
+        <Fade>
           <ProgressBar title={"DONE(" + donesCount + ")"} percent={parseInt(donesPercent)} />
         </Fade>
 
-        <Fade delay={2200}>
+        <Fade>
           <ProgressBar title={"TODO(" + todoCount + ")"} percent={parseInt(todoPercent)} />
         </Fade>
       </>
@@ -49,7 +53,7 @@ export default function ProgressBarContainers() {
 
 
   useEffect(() => {
-    getDataFromLocalStorage();
+    getTasks();
   }, []);
 
 
@@ -61,7 +65,7 @@ export default function ProgressBarContainers() {
           <h2>
             <Zoom cascade left>My Dashboard</Zoom></h2>
           <p>
-            <Zoom cascade left delay={1000}>
+            <Zoom cascade left>
               This is a small dasboard for adding tasks for users to do them, and
               the user must see the name of the task to be sure about what
               he will todo in this task, you can search about the task, confirm
